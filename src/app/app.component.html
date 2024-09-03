@@ -1,0 +1,184 @@
+<!-- Main container for the application -->
+<div class="container mt-5">
+  <!-- Form for adding new employee details -->
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="shadow p-4 bg-white rounded">
+        <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+          <h4 class="display-6 text-center py-2">Employee Registration</h4>
+
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input id="firstName" required #firstName="ngModel" ngModel name="firstName" type="text"
+              class="form-control" placeholder="Enter first name">
+            <div *ngIf="firstName.invalid && firstName.touched">
+              <small class="text-danger" *ngIf="firstName.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input id="lastName" required #lastName="ngModel" ngModel name="lastName" type="text"
+              class="form-control" placeholder="Enter last name">
+            <div *ngIf="lastName.invalid && lastName.touched">
+              <small class="text-danger" *ngIf="lastName.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" required #email="ngModel" ngModel name="email" type="email"
+              class="form-control" placeholder="Enter email">
+            <div *ngIf="email.invalid && email.touched">
+              <small class="text-danger" *ngIf="email.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="department" class="form-label">Department</label>
+            <input id="department" required #department="ngModel" ngModel name="department" type="text"
+              class="form-control" placeholder="Enter department">
+            <div *ngIf="department.invalid && department.touched">
+              <small class="text-danger" *ngIf="department.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="position" class="form-label">Position</label>
+            <input id="position" required #position="ngModel" ngModel name="position" type="text"
+              class="form-control" placeholder="Enter position">
+            <div *ngIf="position.invalid && position.touched">
+              <small class="text-danger" *ngIf="position.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="salary" class="form-label">Salary</label>
+            <input id="salary" required #salary="ngModel" ngModel name="salary" type="text"
+              class="form-control" placeholder="Enter salary">
+            <div *ngIf="salary.invalid && salary.touched">
+              <small class="text-danger" *ngIf="salary.errors?.['required']">Required</small>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button class="btn btn-primary" type="submit">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table to display employee details -->
+  <div class="mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Position</th>
+          <th>Salary</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employeeDetails">
+          <td>{{employee.id}}</td>
+          <td>{{employee.firstName}}</td>
+          <td>{{employee.lastName}}</td>
+          <td>{{employee.email}}</td>
+          <td>{{employee.department}}</td>
+          <td>{{employee.position}}</td>
+          <td>{{employee.salary}}</td>
+          <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal" (click)="edit(employee)">
+              Edit
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="deleteEmployee(employee)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal for updating employee details -->
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel">Update Employee</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #updateForm="ngForm" (ngSubmit)="updateEmployee()">
+            <div class="mb-3">
+              <label for="updateFirstName" class="form-label">First Name</label>
+              <input id="updateFirstName" required #updateFirstName="ngModel" [(ngModel)]="employeeToUpdate.firstName" name="firstName" type="text"
+                class="form-control" placeholder="Enter first name">
+              <div *ngIf="updateFirstName.invalid && updateFirstName.touched">
+                <small class="text-danger" *ngIf="updateFirstName.errors?.['required']">Required</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="updateLastName" class="form-label">Last Name</label>
+              <input id="updateLastName" required #updateLastName="ngModel" [(ngModel)]="employeeToUpdate.lastName" name="lastName" type="text"
+                class="form-control" placeholder="Enter last name">
+              <div *ngIf="updateLastName.invalid && updateLastName.touched">
+                <small class="text-danger" *ngIf="updateLastName.errors?.['required']">Required</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="updateEmail" class="form-label">Email</label>
+              <input id="updateEmail" required #updateEmail="ngModel" [(ngModel)]="employeeToUpdate.email" name="email" type="email"
+                class="form-control" placeholder="Enter email">
+              <div *ngIf="updateEmail.invalid && updateEmail.touched">
+                <small class="text-danger" *ngIf="updateEmail.errors?.['required']">Required</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="updateDepartment" class="form-label">Department</label>
+              <input id="updateDepartment" required #updateDepartment="ngModel" [(ngModel)]="employeeToUpdate.department" name="department" type="text"
+                class="form-control" placeholder="Enter department">
+              <div *ngIf="updateDepartment.invalid && updateDepartment.touched">
+                <small class="text-danger" *ngIf="updateDepartment.errors?.['required']">Required</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="updatePosition" class="form-label">Position</label>
+              <input id="updatePosition" required #updatePosition="ngModel" [(ngModel)]="employeeToUpdate.position" name="position" type="text"
+                class="form-control" placeholder="Enter position">
+              <div *ngIf="updatePosition.invalid && updatePosition.touched">
+                <small class="text-danger" *ngIf="updatePosition.errors?.['required']">Required</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="updateSalary" class="form-label">Salary</label>
+              <input id="updateSalary" required #updateSalary="ngModel" [(ngModel)]="employeeToUpdate.salary" name="salary" type="text"
+                class="form-control" placeholder="Enter salary">
+              <div *ngIf="updateSalary.invalid && updateSalary.touched">
+                <small class="text-danger" *ngIf="updateSalary.errors?.['required']">Required</small>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button class="btn btn-primary" type="submit">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
